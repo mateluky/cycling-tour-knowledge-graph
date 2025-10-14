@@ -1,1 +1,227 @@
+# Target instances of class Person;
+@prefix : <http://ns.inria.fr/humans/schema#> .
+@prefix d: <http://ns.inria.fr/humans/data#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+:TourPackageShape a sh:NodeShape ;
+    sh:targetClass :TourPackage ;
+    sh:property [
+        sh:path :name ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :price ;
+        sh:datatype xsd:double ;
+        sh:minCount 1 ;
+        sh:minValue 0 ;
+    ] ;
+    sh:property [
+        sh:path :durationDays ;
+        sh:datatype xsd:integer ;
+        sh:minCount 1 ;
+        sh:minValue 1 ;
+    ] ;
+    sh:property [
+        sh:path :distanceKm ;
+        sh:datatype xsd:integer ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :difficultyLevel ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :offeredBy ;
+        sh:class :TourOperator ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :followsCyclingPath ;
+        sh:class xsd:cyclingPath ;
+        sh:minCount 1 ;
+    ] .
+
+
+### CyclingPathShape
+:CyclingPathShape a sh:NodeShape ;
+    sh:targetClass :CyclingPath ;
+    sh:property [
+        sh:path :name ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :lengthKm ;
+        sh:datatype xsd:double ;
+        sh:minCount 1 ;
+        sh:minValue 0 ;
+    ] ;
+    sh:property [
+        sh:path :elevationGain ;
+        sh:datatype xsd:double ;
+    ] ;
+    sh:property [
+        sh:path :difficultyLevel ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:property [
+        sh:path :surfaceType ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:property [
+        sh:path :connectsDestination ;
+        sh:class :Destination ;
+        sh:minCount 2 ;
+    ] ;
+    sh:property [
+        sh:path :hasGeometry ;
+        sh:datatype geo:wktLiteral ;
+        sh:minCount 1 ;
+    ] .
+
+### RentalBikeShape
+:RentalBikeShape a sh:NodeShape ;
+    sh:targetClass :RentalBike ;
+    sh:property [
+        sh:path :bikeId ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :model ;
+        sh:class :BikeModel ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :status ;
+        sh:datatype xsd:string ;
+        sh:in ("available" "rented" "maintenance") ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :mileageKm ;
+        sh:datatype xsd:double ;
+        sh:minValue 0 ;
+    ] ;
+    sh:property [
+        sh:path :lastMaintenance ;
+        sh:datatype xsd:date ;
+    ] ;
+    sh:property [
+        sh:path :belongsToFleet ;
+        sh:class :TourOperator ;
+        sh:minCount 1 ;
+    ] .
+
+### EventShape
+:EventShape a sh:NodeShape ;
+    sh:targetClass :Event ;
+    sh:property [
+        sh:path :name ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :eventType ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:property [
+        sh:path :startDate ;
+        sh:datatype xsd:date ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :endDate ;
+        sh:datatype xsd:date ;
+    ] ;
+    sh:property [
+        sh:path :location ;
+        sh:class :Destination ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :relatedPackage ;
+        sh:class :TourPackage ;
+    ] .
+
+### BookingShape
+:BookingShape a sh:NodeShape ;
+    sh:targetClass :Booking ;
+    sh:property [
+        sh:path :bookingId ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :bookingDate ;
+        sh:datatype xsd:date ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :startDate ;
+        sh:datatype xsd:date ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :endDate ;
+        sh:datatype xsd:date ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :bookedBy ;
+        sh:class :Client ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :includesPackage ;
+        sh:class :TourPackage ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :totalPrice ;
+        sh:datatype xsd:double ;
+        sh:minValue 0 ;
+    ] .
+
+### ClientShape
+:ClientShape a sh:NodeShape ;
+    sh:targetClass :Client ;
+    sh:property [
+        sh:path :clientId ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :fullName ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :email ;
+        sh:datatype xsd:string ;
+        sh:pattern "^.+@.+\\..+$" ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path :phoneNumber ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:property [
+        sh:path :preferredDifficulty ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:property [
+        sh:path :hasBooking ;
+        sh:class :Booking ;
+    ] ;
+    sh:property [
+        sh:path :hasRental ;
+        sh:class :RentalBike ;
+    ] .
 

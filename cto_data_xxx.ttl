@@ -1,1 +1,186 @@
+@prefix : <http://example.org/cto#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
 
+### --- Company ---
+:BlueWheelsTours a :TourOperator ;
+    rdfs:label "Blue Wheels Cycling Tours" ;
+    :foundedYear "2015"^^xsd:gYear ;
+    :headquarters :Nice ;
+    :offersPackage :AlpineAdventure , :CoastalEscape ;
+    :ownsBike :Bike01 , :Bike02 , :Bike03 .
+
+### --- Destinations ---
+:Nice a :Destination ;
+    rdfs:label "Nice" ;
+    :altitude "10"^^xsd:integer ;
+    :hasService "Lodging" , "Restaurant" ;
+    geo:asWKT "POINT(7.262 43.710)"^^geo:wktLiteral ;
+    owl:sameAs <http://dbpedia.org/resource/Nice> .
+
+:ColDeLaBonette a :Destination ;
+    rdfs:label "Col de la Bonette" ;
+    :altitude "2802"^^xsd:integer ;
+    :hasService "Repair Shop" ;
+    geo:asWKT "POINT(6.806 44.321)"^^geo:wktLiteral ;
+    owl:sameAs <http://dbpedia.org/resource/Col_de_la_Bonette> .
+
+:Antibes a :Destination ;
+    rdfs:label "Antibes" ;
+    :altitude "15"^^xsd:integer ;
+    geo:asWKT "POINT(7.127 43.580)"^^geo:wktLiteral ;
+    owl:sameAs <http://dbpedia.org/resource/Antibes> .
+
+### --- Cycling Paths ---
+:Path01 a :CyclingPath ;
+    rdfs:label "Bonette Mountain Route" ;
+    :lengthKm "45.0"^^xsd:double ;
+    :elevationGain "1200"^^xsd:double ;
+    :difficultyLevel "hard" ;
+    :surfaceType "asphalt" ;
+    :connectsDestination :Nice , :ColDeLaBonette ;
+    geo:asWKT "LINESTRING(7.262 43.710, 6.806 44.321)"^^geo:wktLiteral .
+
+:Path02 a :CyclingPath ;
+    rdfs:label "Coastal Riviera Path" ;
+    :lengthKm "32.0"^^xsd:double ;
+    :elevationGain "150"^^xsd:double ;
+    :difficultyLevel "easy" ;
+    :surfaceType "paved" ;
+    :connectsDestination :Nice , :Antibes ;
+    geo:asWKT "LINESTRING(7.262 43.710, 7.127 43.580)"^^geo:wktLiteral .
+
+### --- Tour Packages ---
+:AlpineAdventure a :TourPackage ;
+    :name "Alpine Adventure Tour" ;
+    :price "599.99"^^xsd:double ;
+    :durationDays "3"^^xsd:integer ;
+    :distanceKm "120"^^xsd:integer ;
+    :difficultyLevel "hard" ;
+    :theme "mountain" ;
+    :followsCyclingPath :Path01 ;
+    :offeredBy :BlueWheelsTours ;
+    :includesDestination :Nice , :ColDeLaBonette ;
+    :season "Summer" .
+
+:CoastalEscape a :TourPackage ;
+    :name "Coastal Escape Ride" ;
+    :price "299.99"^^xsd:double ;
+    :durationDays "2"^^xsd:integer ;
+    :distanceKm "60"^^xsd:integer ;
+    :difficultyLevel "easy" ;
+    :theme "coastal" ;
+    :followsCyclingPath :Path02 ;
+    :offeredBy :BlueWheelsTours ;
+    :includesDestination :Nice , :Antibes ;
+    :season "Spring" .
+
+### --- Bikes ---
+:ModelRoadPro a :BikeModel ;
+    rdfs:label "RoadPro 3000" ;
+    :category "Road" ;
+    :hasGearCount "22"^^xsd:integer .
+
+:ModelEGravel a :BikeModel ;
+    rdfs:label "E-Gravel X" ;
+    :category "Electric Gravel" ;
+    :hasGearCount "10"^^xsd:integer .
+
+:Bike01 a :RentalBike ;
+    :bikeId "B001" ;
+    :model :ModelRoadPro ;
+    :status "available" ;
+    :mileageKm "1200"^^xsd:double ;
+    :belongsToFleet :BlueWheelsTours .
+
+:Bike02 a :RentalBike ;
+    :bikeId "B002" ;
+    :model :ModelEGravel ;
+    :status "rented" ;
+    :mileageKm "800"^^xsd:double ;
+    :belongsToFleet :BlueWheelsTours .
+
+:Bike03 a :RentalBike ;
+    :bikeId "B003" ;
+    :model :ModelEGravel ;
+    :status "maintenance" ;
+    :mileageKm "2100"^^xsd:double ;
+    :belongsToFleet :BlueWheelsTours .
+
+### --- Guides ---
+:GuideMarie a :Guide ;
+    foaf:name "Marie Dubois" ;
+    :certification "Mountain Safety Level 2" ;
+    :language "French" , "English" ;
+    :experienceYears "7"^^xsd:integer ;
+    :leadsTripGroup :Group01 .
+
+:GuideAlex a :Guide ;
+    foaf:name "Alex Rossi" ;
+    :certification "First Aid" ;
+    :language "Italian" , "English" ;
+    :experienceYears "5"^^xsd:integer ;
+    :leadsTripGroup :Group02 .
+
+### --- Clients ---
+:ClientEmma a :Client ;
+    :clientId "C101" ;
+    :fullName "Emma Laurent" ;
+    :email "emma@example.com" ;
+    :preferredDifficulty "easy" ;
+    :hasBooking :Booking01 .
+
+:ClientTom a :Client ;
+    :clientId "C102" ;
+    :fullName "Tom Jensen" ;
+    :email "tom@example.com" ;
+    :preferredDifficulty "hard" ;
+    :hasBooking :Booking02 .
+
+### --- Bookings ---
+:Booking01 a :Booking ;
+    :bookingId "BK001" ;
+    :bookingDate "2025-05-10"^^xsd:date ;
+    :startDate "2025-06-01"^^xsd:date ;
+    :endDate "2025-06-03"^^xsd:date ;
+    :bookedBy :ClientEmma ;
+    :includesPackage :CoastalEscape ;
+    :totalPrice "299.99"^^xsd:double .
+
+:Booking02 a :Booking ;
+    :bookingId "BK002" ;
+    :bookingDate "2025-06-15"^^xsd:date ;
+    :startDate "2025-07-01"^^xsd:date ;
+    :endDate "2025-07-03"^^xsd:date ;
+    :bookedBy :ClientTom ;
+    :includesPackage :AlpineAdventure ;
+    :totalPrice "599.99"^^xsd:double .
+
+### --- Trip Groups ---
+:Group01 a :TripGroup ;
+    :realizesPackage :CoastalEscape ;
+    :hasGuide :GuideAlex ;
+    :includesClient :ClientEmma ;
+    :startDate "2025-06-01"^^xsd:date ;
+    :endDate "2025-06-03"^^xsd:date .
+
+:Group02 a :TripGroup ;
+    :realizesPackage :AlpineAdventure ;
+    :hasGuide :GuideMarie ;
+    :includesClient :ClientTom ;
+    :startDate "2025-07-01"^^xsd:date ;
+    :endDate "2025-07-03"^^xsd:date .
+
+### --- Event ---
+:RivieraCyclingFestival a :Event ;
+    :name "Riviera Cycling Festival" ;
+    :eventType "festival" ;
+    :startDate "2025-05-20"^^xsd:date ;
+    :endDate "2025-05-22"^^xsd:date ;
+    :location :Nice ;
+    :relatedPackage :CoastalEscape ;
+    :organizedBy :BlueWheelsTours .
