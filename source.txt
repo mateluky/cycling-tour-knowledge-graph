@@ -1,13 +1,27 @@
-A cycling tour operator is a company that organizes, manages, and sells cycling-related travel experiences. It connects travelers with destinations, guides, accommodations, bike rentals, and complementary activities to create complete touring packages. The operator maintains a network of cycling paths, routes, destinations, events, activities, bikes, clients, guides, and bookings, coordinating them into coherent offers.
+A cycling tour operator is a company that organizes, manages, and sells cycling-related travel experiences.
+It connects travelers with destinations, guides, accommodations, bike rentals, and complementary activities to create complete touring packages.
+The operator maintains a network of cycling paths, routes, destinations, events, activities, bikes, clients, guides, and bookings, coordinating them into coherent offers.
 
-The operator’s catalog includes a variety of tour packages — for example, multi-day road cycling trips, mountain biking adventures, or family-friendly scenic rides. Each tour package is defined by its difficulty level, duration, distance, price, and themes (such as “wine & gastronomy,” “coastal rides,” or “alpine climbs”). A package is composed of one or several cycling paths, each associated with one or more destinations (cities, landmarks, mountain passes, or natural parks). Each destination has geographic coordinates, altitude, available services (lodging, restaurants, repair shops), and possibly links to external resources like DBpedia entries for cities or attractions.
+The operator’s catalog includes a variety of tour packages — for example, multi-day road cycling trips, mountain biking adventures, or family-friendly scenic rides.
+Each tour package is defined by its difficulty level, duration, distance, price, and themes (such as “wine & gastronomy,” “coastal rides,” or “alpine climbs”).
+A package is composed of one or several cycling paths, each associated with one or more destinations (cities, landmarks, mountain passes, or natural parks).
+Each destination has geographic coordinates, altitude, available services (lodging, restaurants, repair shops), and possibly links to external resources like DBpedia entries for cities or attractions.
 
-The operator manages a bike rental fleet, including different bike models (road, gravel, e-bike, mountain, tandem). Each rental bike has a unique ID, model reference, maintenance history, mileage, and availability schedule. The company records rental contracts linking clients, bikes, and tour dates, with information about rental duration, pickup and drop-off locations, and pricing.
+The operator manages a bike rental fleet, including different bike models (road, gravel, e-bike, mountain, tandem).
+Each rental bike has a unique ID, model reference, maintenance history, mileage, and availability schedule. The company records rental contracts linking clients, bikes, and tour dates, with information about rental duration, pickup and drop-off locations, and pricing.
 
-A set of guides and support staff lead and assist trips. Each guide has a profile containing skills, certifications (e.g. first aid, mountain guide license), spoken languages, and experience level. Guides are assigned to trip groups, which represent specific realizations of tour packages on particular dates, with a defined number of participants and a start/end schedule.
+A set of guides and support staff lead and assist trips.
+Each guide has a profile containing skills, certifications (e.g. first aid, mountain guide license), spoken languages, and experience level.
+Guides are assigned to trip groups, which represent specific realizations of tour packages on particular dates, with a defined number of participants and a start/end schedule.
 
-Clients are individuals or organizations booking trips. Each client has contact details, preferences (e.g. preferred terrain type, difficulty, bike size), and booking history. Clients can book multiple packages, rent bikes, and participate in group trips. The system records their feedback and ratings for tours, paths, and guides.
+Clients are individuals or organizations booking trips.
+Each client has contact details, preferences (e.g. preferred terrain type, difficulty, bike size), and booking history.
+Clients can book multiple packages, rent bikes, and participate in group trips.
+The system records their feedback and ratings for tours, paths, and guides.
 
-The operator also organizes or promotes local events and activities, such as cycling festivals, repair workshops, guided city tours, and regional competitions. Each event has a location, date, category, and may be associated with a destination or package.
+The operator also organizes or promotes local events and activities, such as cycling festivals, repair workshops, guided city tours, and regional competitions.
+Each event has a location, date, category, and may be associated with a destination or package.
 
-Operationally, the operator tracks bookings, payments, availability, and maintenance schedules. Bookings link clients, packages, and dates. Maintenance records link bikes and service activities, with timestamps and performed operations. Routes and destinations may also link to weather information, seasonal availability, and transport connections (train stations, airports, or shuttle services).
+Operationally, the operator tracks bookings, payments, availability, and maintenance schedules.
+Bookings link clients, packages, and dates. Maintenance records link bikes and service activities, with timestamps and performed operations.
+Routes and destinations may also link to weather information, seasonal availability, and transport connections (train stations, airports, or shuttle services).
