@@ -1,0 +1,109 @@
+@prefix cm:   <http://example.org/cto#> .
+@prefix org:  <http://www.w3.org/ns/org#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+# Classes
+#################################################################
+
+cm:Destination  a rdfs:Class ; rdfs:label "Destination"@en ; rdfs:comment "Geographical destination offered by the operator."@en .
+cm:CyclingPath  a rdfs:Class ; rdfs:label "Cycling Path"@en ; rdfs:comment "A cycling route between cities/places."@en .
+cm:Activity     a rdfs:Class ; rdfs:label "Activity"@en ; rdfs:comment "An activity offered by the operator (e.g., guided ride)."@en .
+cm:BikeModel    a rdfs:Class ; rdfs:label "Bike Model"@en ; rdfs:comment "Catalog model of a rental bike (specs, price per day)."@en .
+cm:RentalBike   a rdfs:Class ; rdfs:label "Rental Bike"@en ; rdfs:comment "A physical bike unit in the rental fleet."@en .
+cm:TourPackage  a rdfs:Class ; rdfs:label "Tour Package"@en ; rdfs:comment "A packaged tour product."@en .
+cm:Booking      a rdfs:Class ; rdfs:label "Booking"@en ; rdfs:comment "A booking/reservation for a tour package and/or bikes."@en .
+cm:Client       a rdfs:Class ; rdfs:label "Client"@en ; rdfs:subClassOf foaf:Person ; rdfs:comment "A client/person who books services."@en .
+cm:Event        a rdfs:Class ; rdfs:label "Event"@en ; rdfs:comment "An event related to destinations/tours."@en .
+cm:City         a rdfs:Class ; rdfs:label "City"@en ; rdfs:comment "A city/place within a country."@en .
+cm:Country      a rdfs:Class ; rdfs:label "Country"@en ; rdfs:comment "A country/sovereign state."@en .
+
+#################################################################
+# Datatype properties
+#################################################################
+
+cm:name              a rdf:Property ; rdfs:label "name"@en ; rdfs:range xsd:string ; rdfs:comment "Name for resources that do not reuse foaf:name in shapes."@en .
+cm:price             a rdf:Property ; rdfs:label "price"@en ; rdfs:domain cm:TourPackage ; rdfs:range xsd:double .
+cm:durationDays      a rdf:Property ; rdfs:label "duration (days)"@en ; rdfs:domain cm:TourPackage ; rdfs:range xsd:integer .
+cm:distanceKm        a rdf:Property ; rdfs:label "distance (km)"@en ; rdfs:domain cm:TourPackage ; rdfs:range xsd:integer .
+cm:difficultyLevel   a rdf:Property ; rdfs:label "difficulty level"@en ; rdfs:range xsd:string .
+cm:surfaceType       a rdf:Property ; rdfs:label "surface type"@en ; rdfs:domain cm:CyclingPath ; rdfs:range xsd:string .
+
+cm:description       a rdf:Property ; rdfs:label "description"@en ; rdfs:range xsd:string .
+cm:durationHours     a rdf:Property ; rdfs:label "duration (hours)"@en ; rdfs:domain cm:Activity ; rdfs:range xsd:integer .
+cm:pricePerPerson    a rdf:Property ; rdfs:label "price per person"@en ; rdfs:domain cm:Activity ; rdfs:range xsd:double .
+cm:requiresBooking   a rdf:Property ; rdfs:label "requires booking"@en ; rdfs:range xsd:boolean .
+cm:offeredInLanguage a rdf:Property ; rdfs:label "offered in language"@en ; rdfs:range xsd:string .
+
+cm:bikeType          a rdf:Property ; rdfs:label "bike type"@en ; rdfs:domain cm:BikeModel ; rdfs:range xsd:string .
+cm:gearCount         a rdf:Property ; rdfs:label "gear count"@en ; rdfs:domain cm:BikeModel ; rdfs:range xsd:integer .
+cm:wheelSizeInches   a rdf:Property ; rdfs:label "wheel size (inches)"@en ; rdfs:domain cm:BikeModel ; rdfs:range xsd:double .
+cm:availableSizes    a rdf:Property ; rdfs:label "available sizes"@en ; rdfs:domain cm:BikeModel ; rdfs:range xsd:string .
+cm:pricePerDay       a rdf:Property ; rdfs:label "price per day"@en ; rdfs:domain cm:BikeModel ; rdfs:range xsd:double .
+cm:isElectric        a rdf:Property ; rdfs:label "is electric"@en ; rdfs:domain cm:BikeModel ; rdfs:range xsd:boolean .
+
+cm:bikeId            a rdf:Property ; rdfs:label "bike ID"@en ; rdfs:domain cm:RentalBike ; rdfs:range xsd:string .
+cm:Brand             a rdf:Property ; rdfs:label "brand"@en ; rdfs:domain cm:RentalBike ; rdfs:range xsd:string ; rdfs:comment "Brand name of the rental bike instance (capitalized to match existing data)."@en .
+cm:mileageKm         a rdf:Property ; rdfs:label "mileage (km)"@en ; rdfs:domain cm:RentalBike ; rdfs:range xsd:double .
+cm:lastMaintenance   a rdf:Property ; rdfs:label "last maintenance"@en ; rdfs:domain cm:RentalBike ; rdfs:range xsd:date .
+cm:status            a rdf:Property ; rdfs:label "status"@en ; rdfs:domain cm:RentalBike ; rdfs:range xsd:string .
+
+cm:bookingId         a rdf:Property ; rdfs:label "booking ID"@en ; rdfs:domain cm:Booking ; rdfs:range xsd:string .
+cm:bookingDate       a rdf:Property ; rdfs:label "booking date"@en ; rdfs:domain cm:Booking ; rdfs:range xsd:date .
+cm:startDate         a rdf:Property ; rdfs:label "start date"@en ; rdfs:range xsd:date .
+cm:endDate           a rdf:Property ; rdfs:label "end date"@en ; rdfs:range xsd:date .
+cm:totalPrice        a rdf:Property ; rdfs:label "total price"@en ; rdfs:domain cm:Booking ; rdfs:range xsd:double .
+
+cm:clientId          a rdf:Property ; rdfs:label "client ID"@en ; rdfs:domain cm:Client ; rdfs:range xsd:string .
+cm:fullName          a rdf:Property ; rdfs:label "full name"@en ; rdfs:domain cm:Client ; rdfs:range xsd:string .
+cm:email             a rdf:Property ; rdfs:label "email"@en ; rdfs:domain cm:Client ; rdfs:range xsd:string .
+cm:phoneNumber       a rdf:Property ; rdfs:label "phone number"@en ; rdfs:domain cm:Client ; rdfs:range xsd:string .
+cm:preferredDifficulty a rdf:Property ; rdfs:label "preferred difficulty"@en ; rdfs:domain cm:Client ; rdfs:range xsd:string .
+
+cm:eventType         a rdf:Property ; rdfs:label "event type"@en ; rdfs:domain cm:Event ; rdfs:range xsd:string .
+
+cm:age               a rdf:Property ; rdfs:label "age"@en ; rdfs:domain foaf:Person ; rdfs:range xsd:integer .
+cm:speaksLanguage    a rdf:Property ; rdfs:label "speaks language"@en ; rdfs:domain foaf:Person ; rdfs:range xsd:string .
+
+cm:hasOfficialLanguage a rdf:Property ; rdfs:label "has official language"@en ; rdfs:domain cm:Country ; rdfs:range xsd:string .
+cm:usesCurrency      a rdf:Property ; rdfs:label "uses currency"@en ; rdfs:domain cm:Country ; rdfs:range xsd:string .
+cm:hasTouristAttraction a rdf:Property ; rdfs:label "has tourist attraction"@en ; rdfs:domain cm:Country ; rdfs:range xsd:string .
+
+#################################################################
+# Object properties
+#################################################################
+
+cm:offeredBy           a rdf:Property ; rdfs:label "offered by"@en ; rdfs:domain cm:TourPackage ; rdfs:range org:Organization .
+cm:followsCyclingPath  a rdf:Property ; rdfs:label "follows cycling path"@en ; rdfs:domain cm:TourPackage ; rdfs:range cm:CyclingPath .
+
+cm:startsAt            a rdf:Property ; rdfs:label "starts at"@en ; rdfs:range cm:City .
+cm:endsAt              a rdf:Property ; rdfs:label "ends at"@en ; rdfs:range cm:City .
+
+cm:availableActivities a rdf:Property ; rdfs:label "available activities"@en ; rdfs:domain cm:Destination ; rdfs:range cm:Activity .
+cm:hasCyclingPath      a rdf:Property ; rdfs:label "has cycling path"@en ; rdfs:domain cm:Destination ; rdfs:range cm:CyclingPath .
+cm:locatedIn           a rdf:Property ; rdfs:label "located in"@en ; rdfs:range cm:Country .
+
+cm:offersTourPackage   a rdf:Property ; rdfs:label "offers tour package"@en ; rdfs:domain org:Organization ; rdfs:range cm:TourPackage .
+cm:offersBikes         a rdf:Property ; rdfs:label "offers bikes (models)"@en ; rdfs:domain org:Organization ; rdfs:range cm:BikeModel .
+cm:organizesActivities a rdf:Property ; rdfs:label "organizes activities"@en ; rdfs:domain org:Organization ; rdfs:range cm:Activity .
+cm:servesClients       a rdf:Property ; rdfs:label "serves clients"@en ; rdfs:domain org:Organization ; rdfs:range foaf:Person .
+cm:partnersWith        a rdf:Property ; rdfs:label "partners with"@en ; rdfs:domain org:Organization ; rdfs:range org:Organization .
+
+cm:model               a rdf:Property ; rdfs:label "has model"@en ; rdfs:domain cm:RentalBike ; rdfs:range cm:BikeModel .
+cm:belongsToFleet      a rdf:Property ; rdfs:label "belongs to fleet"@en ; rdfs:domain cm:RentalBike ; rdfs:range org:Organization .
+
+cm:hasCapital          a rdf:Property ; rdfs:label "has capital"@en ; rdfs:domain cm:Country ; rdfs:range cm:City .
+
+cm:requiresPersonnel   a rdf:Property ; rdfs:label "requires personnel"@en ; rdfs:domain cm:Activity ; rdfs:range foaf:Person .
+
+cm:bookedBy            a rdf:Property ; rdfs:label "booked by"@en ; rdfs:domain cm:Booking ; rdfs:range foaf:Person .
+cm:includesPackage     a rdf:Property ; rdfs:label "includes package"@en ; rdfs:domain cm:Booking ; rdfs:range cm:TourPackage .
+
+cm:location            a rdf:Property ; rdfs:label "location"@en ; rdfs:domain cm:Event ; rdfs:range cm:Destination .
+cm:relatedPackage      a rdf:Property ; rdfs:label "related package"@en ; rdfs:domain cm:Event ; rdfs:range cm:TourPackage .
+
+cm:hasBooking          a rdf:Property ; rdfs:label "has booking"@en ; rdfs:domain cm:Client ; rdfs:range cm:Booking .
+cm:hasRental           a rdf:Property ; rdfs:label "has rental"@en ; rdfs:domain cm:Client ; rdfs:range cm:RentalBike .

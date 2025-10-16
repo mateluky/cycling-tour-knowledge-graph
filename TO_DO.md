@@ -16,7 +16,7 @@
 
 - [ ] **Build RDF Data Graph**
   - [ ] Produce `cto_data.ttl` (or multiple files) with rich instances.  
-  - [ ] Link to **DBpedia** or **Wikidata** for cities, regions, and events.
+  - [ ] Link to **DBpedia** or **Wikidata** for cities, regions.
 
 - [ ] **Validate and Iterate**
   - [ ] Run **SHACL validation** and fix inconsistencies.  

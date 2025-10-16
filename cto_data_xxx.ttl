@@ -1,186 +1,379 @@
-@prefix : <http://example.org/cto#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix cm:   <http://example.org/cto#> .
+@prefix cmL:  <http://example.org/cto/local#> .
+@prefix org:  <http://www.w3.org/ns/org#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix geo: <http://www.opengis.net/ont/geosparql#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dbr:  <http://dbpedia.org/resource/> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
-### --- Company ---
-:BlueWheelsTours a :TourOperator ;
-    rdfs:label "Blue Wheels Cycling Tours" ;
-    :foundedYear "2015"^^xsd:gYear ;
-    :headquarters :Nice ;
-    :offersPackage :AlpineAdventure , :CoastalEscape ;
-    :ownsBike :Bike01 , :Bike02 , :Bike03 .
+#organizations,
+cm:CDAC a org:Organization ;
+    foaf:name "Cote d'Azur Cycling Destinations"^^xsd:string ;
+    org:hasAddress cm:CDAC_HeadOffice ;
+    org:hasMember cm:Mate, cm:Artur, cm:Jean ;
+    foaf:homepage <http://www.cyclingdestinations.com> ;
+    foaf:mbox <mailto:info@cyclingdestinations.com> ;
+    cm:offersTourPackage cm:ProvenceTour, cm:AlpsTour, cm:FrenchRivieraTour ;
+    cm:offersBikes cm:RoadBike, cm:MountainBike, cm:ElectricBike, cm:KidsBike ;
+    cm:organizesActivities cm:GuidedRide, cm:WineRide, cm:BikeMaintenanceWorkshop ;
+    cm:servesClients cm:Patric, cm:Jeanny, cm:Oscar .
 
-### --- Destinations ---
-:Nice a :Destination ;
-    rdfs:label "Nice" ;
-    :altitude "10"^^xsd:integer ;
-    :hasService "Lodging" , "Restaurant" ;
-    geo:asWKT "POINT(7.262 43.710)"^^geo:wktLiteral ;
-    owl:sameAs <http://dbpedia.org/resource/Nice> .
+cmL:WineryNice a org:Organization ;
+    foaf:name "Winery Nice"^^xsd:string ;
+    org:hasAddress cm:WineryNice_HeadOffice ;
+    foaf:homepage <http://www.winerynice.com> ;
+    foaf:mbox <mailto:info@winerynice.com> ;
+    cm:partnersWith cm:CDAC .
+cmL:WineryAlps a org:Organization ;
+    foaf:name "Winery Alps"^^xsd:string ;
+    org:hasAddress cm:WineryAlps_HeadOffice ;
+    foaf:homepage <http://www.wineryalps.com> ;
+    foaf:mbox <mailto:info@wineryalps.com> ;
+    cm:partnersWith cm:CDAC .
+cm:BikeWorkshopPaul a org:Organization ;
+    foaf:name "Bike Workshop Paul"^^xsd:string ;
+    org:hasAddress cm:BikeWorkshopPaul_HeadOffice ;
+    foaf:homepage <http://www.bikeworkshoppaul.com> ;
+    foaf:mbox <mailto:info@bikeworkshoppaul.com> ;
+    cm:partnersWith cm:CDAC .
+#destinations, 
+cm:Provence a cm:Destination ;
+    foaf:name "Provence"^^xsd:string ;
+    cm:locatedIn cm:France ;
+    cm:offeredInLanguage "English"^^xsd:string, "French"^^xsd:string, "German"^^xsd:string ;
+    cm:availableActivities cm:WineRide ;
+    cm:hasCyclingPath cm:ProvencePathValley, cm:ProvencePathHilltops .
+cm:Provence owl:sameAs dbr:Provence .
+cm:FrenchRiviera a cm:Destination ;
+    foaf:name "French Riviera"^^xsd:string ;
+    cm:locatedIn cm:France ;
+    cm:offeredInLanguage "English"^^xsd:string, "French"^^xsd:string, "Italian"^^xsd:string ;
+    cm:availableActivities cm:GuidedRide ;
+    cm:hasCyclingPath cm:RivieraPathCoast, cm:RivieraPathInland .
+cm:FrenchRiviera owl:sameAs dbr:French_Riviera .
+cm:Alps a cm:Destination ;
+    foaf:name "Alps"^^xsd:string ;
+    cm:locatedIn cm:France ;
+    cm:availableActivities cm:WineRide, cm:BikeMaintenanceWorkshop, cm:GuidedRide ;
+    cm:offeredInLanguage "Hungarian"^^xsd:string, "French"^^xsd:string, "Polish"^^xsd:string ;
+    cm:hasCyclingPath cm:AlpsPathMountain, cm:AlpsPathLakes .    
+cm:Alps owl:sameAs dbr:Alps .
+#cycling paths, 
 
-:ColDeLaBonette a :Destination ;
-    rdfs:label "Col de la Bonette" ;
-    :altitude "2802"^^xsd:integer ;
-    :hasService "Repair Shop" ;
-    geo:asWKT "POINT(6.806 44.321)"^^geo:wktLiteral ;
-    owl:sameAs <http://dbpedia.org/resource/Col_de_la_Bonette> .
+cm:ProvencePathValley a cm:CyclingPath ;
+    foaf:name "Provence Valley Path"^^xsd:string ;
+    cm:lengthKm "120.5"^^xsd:double ;
+    cm:elevationGain "800"^^xsd:double ;
+    cm:difficultyLevel "Medium"^^xsd:string ;
+    cm:allowedBikes cm:RoadBike, cm:ElectricBike, cm:MountainBike , cm:KidsBike ;
+    cm:startsAt cm:Avignon ;
+    cm:endsAt cm:AixEnProvence .
+cm:ProvencePathHilltops a cm:CyclingPath ;
+    foaf:name "Provence Hilltops Path"^^xsd:string ;
+    cm:lengthKm "95.0"^^xsd:double ;
+    cm:elevationGain "1200"^^xsd:double ;
+    cm:allowedBikes cm:MountainBike, cm:ElectricBike ;
+    cm:difficultyLevel "Hard"^^xsd:string ;
+    cm:startsAt cm:AixEnProvence ;
+    cm:endsAt cm:Marseille .
+cm:RivieraPathCoast a cm:CyclingPath ;
+    foaf:name "Riviera Coastal Path"^^xsd:string ;
+    cm:lengthKm "80.0"^^xsd:double ;
+    cm:elevationGain "300"^^xsd:double ;
+    cm:allowedBikes cm:RoadBike, cm:ElectricBike, cm:MountainBike ,cm:KidsBike ;
+    cm:difficultyLevel "Easy"^^xsd:string ;
+    cm:startsAt cm:Nice ;
+    cm:endsAt cm:Cannes .
+cm:RivieraPathInland a cm:CyclingPath ;
+    foaf:name "Riviera Inland Path"^^xsd:string ;
+    cm:lengthKm "110.0"^^xsd:double ;
+    cm:elevationGain "600"^^xsd:double ;
+    cm:allowedBikes cm:RoadBike, cm:ElectricBike, cm:MountainBike ;
+    cm:difficultyLevel "Medium"^^xsd:string ;
+    cm:startsAt cm:Cannes ;
+    cm:endsAt cm:Grasse .
+cm:AlpsPathMountain a cm:CyclingPath ;
+    foaf:name "Alps Mountain Path"^^xsd:string ;
+    cm:lengthKm "150.0"^^xsd:double ;
+    cm:elevationGain "2000"^^xsd:double ;
+    cm:allowedBikes cm:MountainBike, cm:ElectricBike ;
+    cm:difficultyLevel "Hard"^^xsd:string ;
+    cm:startsAt cm:Chamonix ;
+    cm:endsAt cm:Annecy .
+cm:AlpsPathLakes a cm:CyclingPath ;
+    foaf:name "Alps Lakes Path"^^xsd:string ;
+    cm:lengthKm "130.0"^^xsd:double ;
+    cm:elevationGain "1000"^^xsd:double ;
+    cm:allowedBikes cm:RoadBike, cm:ElectricBike, cm:MountainBike ;
+    cm:difficultyLevel "Medium"^^xsd:string ;
+    cm:startsAt cm:Annecy ;
+    cm:endsAt cm:Geneva .
 
-:Antibes a :Destination ;
-    rdfs:label "Antibes" ;
-    :altitude "15"^^xsd:integer ;
-    geo:asWKT "POINT(7.127 43.580)"^^geo:wktLiteral ;
-    owl:sameAs <http://dbpedia.org/resource/Antibes> .
+cm:RoadBike a cm:BikeModel ;
+    foaf:name "Road Bike"^^xsd:string ;
+    cm:bikeType "Road"^^xsd:string ;
+    cm:gearCount "18"^^xsd:integer ;
+    cm:wheelSizeInches "28"^^xsd:double ;
+    cm:availableSizes "S"^^xsd:string, "M"^^xsd:string, "L"^^xsd:string ;
+    cm:pricePerDay "30"^^xsd:double ;
+    cm:isElectric false .
 
-### --- Cycling Paths ---
-:Path01 a :CyclingPath ;
-    rdfs:label "Bonette Mountain Route" ;
-    :lengthKm "45.0"^^xsd:double ;
-    :elevationGain "1200"^^xsd:double ;
-    :difficultyLevel "hard" ;
-    :surfaceType "asphalt" ;
-    :connectsDestination :Nice , :ColDeLaBonette ;
-    geo:asWKT "LINESTRING(7.262 43.710, 6.806 44.321)"^^geo:wktLiteral .
+cm:MountainBike a cm:BikeModel ;
+    foaf:name "Mountain Bike"^^xsd:string ;
+    cm:bikeType "Mountain"^^xsd:string ;
+    cm:gearCount "21"^^xsd:integer ;
+    cm:wheelSizeInches "27.5"^^xsd:double ;
+    cm:availableSizes "M"^^xsd:string, "L"^^xsd:string, "XL"^^xsd:string ;
+    cm:pricePerDay "35"^^xsd:double ;
+    cm:isElectric true .
 
-:Path02 a :CyclingPath ;
-    rdfs:label "Coastal Riviera Path" ;
-    :lengthKm "32.0"^^xsd:double ;
-    :elevationGain "150"^^xsd:double ;
-    :difficultyLevel "easy" ;
-    :surfaceType "paved" ;
-    :connectsDestination :Nice , :Antibes ;
-    geo:asWKT "LINESTRING(7.262 43.710, 7.127 43.580)"^^geo:wktLiteral .
+cm:ElectricBike a cm:BikeModel ;
+    foaf:name "Electric Bike"^^xsd:string ;
+    cm:bikeType "Hybrid"^^xsd:string ;
+    cm:gearCount "7"^^xsd:integer ;
+    cm:wheelSizeInches "28"^^xsd:double ;
+    cm:availableSizes "S"^^xsd:string, "M"^^xsd:string, "L"^^xsd:string, "XL"^^xsd:string ;
+    cm:pricePerDay "50"^^xsd:double ;
+    cm:isElectric true .
 
-### --- Tour Packages ---
-:AlpineAdventure a :TourPackage ;
-    :name "Alpine Adventure Tour" ;
-    :price "599.99"^^xsd:double ;
-    :durationDays "3"^^xsd:integer ;
-    :distanceKm "120"^^xsd:integer ;
-    :difficultyLevel "hard" ;
-    :theme "mountain" ;
-    :followsCyclingPath :Path01 ;
-    :offeredBy :BlueWheelsTours ;
-    :includesDestination :Nice , :ColDeLaBonette ;
-    :season "Summer" .
+cm:KidsBike a cm:BikeModel ;
+    foaf:name "Kids Bike"^^xsd:string ;
+    cm:bikeType "Kids"^^xsd:string ;
+    cm:gearCount "1"^^xsd:integer ;
+    cm:wheelSizeInches "20"^^xsd:double ;
+    cm:availableSizes "XS"^^xsd:string, "S"^^xsd:string ;
+    cm:pricePerDay "20"^^xsd:double ;
+    cm:isElectric false .
 
-:CoastalEscape a :TourPackage ;
-    :name "Coastal Escape Ride" ;
-    :price "299.99"^^xsd:double ;
-    :durationDays "2"^^xsd:integer ;
-    :distanceKm "60"^^xsd:integer ;
-    :difficultyLevel "easy" ;
-    :theme "coastal" ;
-    :followsCyclingPath :Path02 ;
-    :offeredBy :BlueWheelsTours ;
-    :includesDestination :Nice , :Antibes ;
-    :season "Spring" .
+#rental bikes (instances)
+cm:Bike001 a cm:RentalBike ;
+    cm:bikeId "B001" ;
+    cm:model cm:RoadBike ;
+    cm:Brand "Bikey"^^xsd:string ;
+    cm:status "available" ;
+    cm:mileageKm "1200"^^xsd:double ;
+    cm:belongsToFleet cm:CDAC .
 
-### --- Bikes ---
-:ModelRoadPro a :BikeModel ;
-    rdfs:label "RoadPro 3000" ;
-    :category "Road" ;
-    :hasGearCount "22"^^xsd:integer .
+cm:Bike002 a cm:RentalBike ;
+    cm:bikeId "B002" ;
+    cm:model cm:MountainBike ;
+    cm:Brand "Bikey"^^xsd:string ;
+    cm:status "maintenance" ;
+    cm:mileageKm "2450"^^xsd:double ;
+    cm:belongsToFleet cm:CDAC .
 
-:ModelEGravel a :BikeModel ;
-    rdfs:label "E-Gravel X" ;
-    :category "Electric Gravel" ;
-    :hasGearCount "10"^^xsd:integer .
+cm:Bike003 a cm:RentalBike ;
+    cm:bikeId "B003" ;
+    cm:model cm:ElectricBike ;
+    cm:Brand "Scooterio"^^xsd:string ;
+    cm:status "rented" ;
+    cm:mileageKm "860"^^xsd:double ;
+    cm:belongsToFleet cm:CDAC .
 
-:Bike01 a :RentalBike ;
-    :bikeId "B001" ;
-    :model :ModelRoadPro ;
-    :status "available" ;
-    :mileageKm "1200"^^xsd:double ;
-    :belongsToFleet :BlueWheelsTours .
+cm:Bike004 a cm:RentalBike ;
+    cm:bikeId "B004" ;
+    cm:model cm:KidsBike ;
+    cm:Brand "Scooterio"^^xsd:string ;
+    cm:status "available" ;
+    cm:mileageKm "150"^^xsd:double ;
+    cm:belongsToFleet cm:CDAC .
 
-:Bike02 a :RentalBike ;
-    :bikeId "B002" ;
-    :model :ModelEGravel ;
-    :status "rented" ;
-    :mileageKm "800"^^xsd:double ;
-    :belongsToFleet :BlueWheelsTours .
+#activities,
+cm:GuidedRide a cm:Activity ;
+    foaf:name "Guided Ride"^^xsd:string ;
+    cm:description "A guided cycling tour with an experienced guide."^^xsd:string ;
+    cm:durationHours "4"^^xsd:integer ;
+    cm:pricePerPerson "75"^^xsd:double ;
+    cm:offeredInLanguage "English"^^xsd:string, "French"^^xsd:string ;
+    cm:requiresBooking true .
+cm:WineRide a cm:Activity ;
+    foaf:name "Wine Ride"^^xsd:string ;
+    cm:description "A cycling tour through vineyards with wine tasting."^^xsd:string ;
+    cm:durationHours "6"^^xsd:integer ;
+    cm:pricePerPerson "120"^^xsd:double ;
+    cm:requiresPersonnel cm:Jean ;
+    cm:offeredInLanguage "English"^^xsd:string, "French"^^xsd:string, "German"^^xsd:string ;
+    cm:requiresBooking true .
+cm:BikeMaintenanceWorkshop a cm:Activity ;
+    foaf:name "Bike Maintenance Workshop"^^xsd:string ;
+    cm:description "A workshop teaching basic bike maintenance skills."^^xsd:string ;
+    cm:requiresPersonnel cm:Mate ;
+    cm:durationHours "3"^^xsd:integer ;
+    cm:pricePerPerson "50"^^xsd:double ;
+    cm:offeredInLanguage "English"^^xsd:string, "French"^^xsd:string ;
+    cm:requiresBooking false .
+#tour packages, 
+cm:ProvenceTour a cm:TourPackage ;
+    foaf:name "Provence Cycling Tour"^^xsd:string ;
+    cm:description "Explore the beautiful Provence region with guided cycling tours."^^xsd:string ;
+    cm:includesActivity cm:GuidedRide, cm:WineRide ;
+    cm:durationDays "5"^^xsd:integer ;
+    cm:pricePerPerson "300"^^xsd:double ;
+    cm:availableFrom "2024-05-01"^^xsd:date ;
+    cm:availableTo "2024-10-31"^^xsd:date ;
+    cm:maxParticipants "10"^^xsd:integer ;
+    cm:requiresBooking true ;
+    cm:startsAt cm:Avignon ;
+    cm:endsAt cm:AixEnProvence .
+cm:AlpsTour a cm:TourPackage ;
+    foaf:name "Alps Cycling Adventure"^^xsd:string ;
+    cm:description "Experience the thrill of cycling in the Alps with expert guides."^^xsd:string ;
+    cm:includesActivity cm:GuidedRide, cm:BikeMaintenanceWorkshop ;
+    cm:durationDays "7"^^xsd:integer ;
+    cm:pricePerPerson "500"^^xsd:double ;
+    cm:availableFrom "2024-06-01"^^xsd:date ;
+    cm:availableTo "2024-09-30"^^xsd:date ;
+    cm:maxParticipants "8"^^xsd:integer ;
+    cm:requiresBooking true ;
+    cm:startsAt cm:Chamonix ;
+    cm:endsAt cm:Annecy .
+cm:FrenchRivieraTour a cm:TourPackage ;
+    foaf:name "French Riviera Cycling Experience"^^xsd:string ;
+    cm:description "Discover the stunning French Riviera on two wheels."^^xsd:string ;
+    cm:includesActivity cm:GuidedRide ;
+    cm:durationDays "4"^^xsd:integer ;
+    cm:pricePerPerson "250"^^xsd:double ;
+    cm:availableFrom "2024-04-15"^^xsd:date ;
+    cm:availableTo "2024-10-15"^^xsd:date ;
+    cm:maxParticipants "12"^^xsd:integer ;
+    cm:requiresBooking true ;
+    cm:startsAt cm:Nice ;
+    cm:endsAt cm:Cannes .   
+#clients, 
+cm:Patric a foaf:Person ;
+    foaf:name "Patric"^^xsd:string ;
+    cm:age "28"^^xsd:integer ;
+    foaf:mbox <mailto:patric@example.com> .
+cm:Jeanny a foaf:Person ;
+    foaf:name "Jeanny"^^xsd:string ;
+    cm:age "32"^^xsd:integer ;
+    foaf:mbox <mailto:jeanny@example.com> .
+cm:Oscar a foaf:Person ;
+    foaf:name "Oscar"^^xsd:string ;
+    cm:age "35"^^xsd:integer ;
+    foaf:mbox <mailto:oscar@example.com> .
 
-:Bike03 a :RentalBike ;
-    :bikeId "B003" ;
-    :model :ModelEGravel ;
-    :status "maintenance" ;
-    :mileageKm "2100"^^xsd:double ;
-    :belongsToFleet :BlueWheelsTours .
+#bookings, 
+cm:bookings a cm:Booking ;
+    cm:bookingId "BK001" ;
+    cm:bookedBy cm:Patric ;
+    cm:forTourPackage cm:ProvenceTour ;
+    cm:bookingDate "2024-03-15"^^xsd:date ;
+    cm:tourStartDate "2024-06-10"^^xsd:date ;
+    cm:numberOfParticipants "2"^^xsd:integer ;
+    cm:totalPrice "600"^^xsd:double ;
+    cm:includesBikes cm:Bike001, cm:Bike004 ;
+    cm:status "confirmed"^^xsd:string .
+cm:booking002 a cm:Booking ;
+    cm:bookingId "BK002" ;
+    cm:bookedBy cm:Jeanny ;
+    cm:forTourPackage cm:AlpsTour ;
+    cm:bookingDate "2024-04-01"^^xsd:date ;
+    cm:tourStartDate "2024-07-15"^^xsd:date ;
+    cm:numberOfParticipants "1"^^xsd:integer ;
+    cm:totalPrice "500"^^xsd:double ;
+    cm:includesBikes cm:Bike003 ;
+    cm:status "pending"^^xsd:string .
+cm:booking003 a cm:Booking ;
+    cm:bookingId "BK003" ;
+    cm:bookedBy cm:Oscar ;
+    cm:forTourPackage cm:FrenchRivieraTour ;
+    cm:bookingDate "2024-02-20"^^xsd:date ;
+    cm:tourStartDate "2024-05-20"^^xsd:date ;
+    cm:numberOfParticipants "3"^^xsd:integer ;
+    cm:totalPrice "750"^^xsd:double ;
+    cm:includesBikes cm:Bike001, cm:Bike002, cm:Bike004 ;
+    cm:status "confirmed"^^xsd:string .
 
-### --- Guides ---
-:GuideMarie a :Guide ;
-    foaf:name "Marie Dubois" ;
-    :certification "Mountain Safety Level 2" ;
-    :language "French" , "English" ;
-    :experienceYears "7"^^xsd:integer ;
-    :leadsTripGroup :Group01 .
+#guides,
+cm:Mate a foaf:Person ;
+    foaf:name "Mate"^^xsd:string ;
+    cm:age "24"^^xsd:integer ;
+    foaf:mbox <mailto:mate@example.com> ;
+    cm:hasSkill cm:BikeMaintenance, cm:GuidedTours ;
+    cm:speaksLanguage "English"^^xsd:string, "German"^^xsd:string, "Hungarian"^^xsd:string .
+cm:Artur a foaf:Person ;
+    foaf:name "Artur"^^xsd:string ;
+    cm:age "22"^^xsd:integer ;
+    foaf:mbox <mailto:artur@example.com> ;
+    cm:hasSkill cm:GuidedTours ;
+    cm:speaksLanguage "English"^^xsd:string, "French"^^xsd:string, "Polish"^^xsd:string .
+cm:Jean a foaf:Person ;
+    foaf:name "Jean"^^xsd:string ;
+    cm:age "30"^^xsd:integer ;
+    foaf:mbox <mailto:jean@example.com> ;
+    cm:hasSkill cm:WineTasting, cm:GuidedTours ;
+    cm:speaksLanguage "French"^^xsd:string, "Italian"^^xsd:string .
 
-:GuideAlex a :Guide ;
-    foaf:name "Alex Rossi" ;
-    :certification "First Aid" ;
-    :language "Italian" , "English" ;
-    :experienceYears "5"^^xsd:integer ;
-    :leadsTripGroup :Group02 .
+#Cities
+cm:Avignon a cm:City ;
+    foaf:name "Avignon"^^xsd:string ;
+    cm:locatedIn cm:France ;
+    .
+cm:Avignon owl:sameAs dbr:Avignon .
+cm:AixEnProvence a cm:City ;
+    foaf:name "Aix-en-Provence"^^xsd:string ;
+    cm:locatedIn cm:France ;
+    .
+cm:AixEnProvence owl:sameAs dbr:Aix-en-Provence .
+cm:Marseille a cm:City ;
+    foaf:name "Marseille"^^xsd:string ;
+    cm:locatedIn cm:France ;
+    .
+cm:Marseille owl:sameAs dbr:Marseille .
+cm:Nice a cm:City ;
+    foaf:name "Nice"^^xsd:string ;
+    cm:locatedIn cm:France ;
+    .
+cm:Nice owl:sameAs dbr:Nice .
+cm:Cannes a cm:City ;
+    foaf:name "Cannes"^^xsd:string ;
+    cm:locatedIn cm:France ;
+    .
+cm:Cannes owl:sameAs dbr:Cannes .
+cm:Grasse a cm:City ;
+    foaf:name "Grasse"^^xsd:string ;
+    cm:locatedIn cm:France ;
+    .
+cm:Grasse owl:sameAs dbr:Grasse .
+cm:Chamonix a cm:City ;
+    foaf:name "Chamonix"^^xsd:string ;
+    cm:locatedIn cm:France ;
+    .
+cm:Chamonix owl:sameAs dbr:Chamonix .
+cm:Annecy a cm:City ;
+    foaf:name "Annecy"^^xsd:string ;
+    cm:locatedIn cm:France ;
+    .
+cm:Annecy owl:sameAs dbr:Annecy .
+cm:Geneva a cm:City ;
+    foaf:name "Geneva"^^xsd:string ;
+    cm:locatedIn cm:Switzerland ;
+    .
+cm:Geneva owl:sameAs dbr:Geneva .
+# capitals referenced in countries
+cm:Paris a cm:City ;
+    foaf:name "Paris"^^xsd:string ;
+    cm:locatedIn cm:France .
+cm:Paris owl:sameAs dbr:Paris .
 
-### --- Clients ---
-:ClientEmma a :Client ;
-    :clientId "C101" ;
-    :fullName "Emma Laurent" ;
-    :email "emma@example.com" ;
-    :preferredDifficulty "easy" ;
-    :hasBooking :Booking01 .
-
-:ClientTom a :Client ;
-    :clientId "C102" ;
-    :fullName "Tom Jensen" ;
-    :email "tom@example.com" ;
-    :preferredDifficulty "hard" ;
-    :hasBooking :Booking02 .
-
-### --- Bookings ---
-:Booking01 a :Booking ;
-    :bookingId "BK001" ;
-    :bookingDate "2025-05-10"^^xsd:date ;
-    :startDate "2025-06-01"^^xsd:date ;
-    :endDate "2025-06-03"^^xsd:date ;
-    :bookedBy :ClientEmma ;
-    :includesPackage :CoastalEscape ;
-    :totalPrice "299.99"^^xsd:double .
-
-:Booking02 a :Booking ;
-    :bookingId "BK002" ;
-    :bookingDate "2025-06-15"^^xsd:date ;
-    :startDate "2025-07-01"^^xsd:date ;
-    :endDate "2025-07-03"^^xsd:date ;
-    :bookedBy :ClientTom ;
-    :includesPackage :AlpineAdventure ;
-    :totalPrice "599.99"^^xsd:double .
-
-### --- Trip Groups ---
-:Group01 a :TripGroup ;
-    :realizesPackage :CoastalEscape ;
-    :hasGuide :GuideAlex ;
-    :includesClient :ClientEmma ;
-    :startDate "2025-06-01"^^xsd:date ;
-    :endDate "2025-06-03"^^xsd:date .
-
-:Group02 a :TripGroup ;
-    :realizesPackage :AlpineAdventure ;
-    :hasGuide :GuideMarie ;
-    :includesClient :ClientTom ;
-    :startDate "2025-07-01"^^xsd:date ;
-    :endDate "2025-07-03"^^xsd:date .
-
-### --- Event ---
-:RivieraCyclingFestival a :Event ;
-    :name "Riviera Cycling Festival" ;
-    :eventType "festival" ;
-    :startDate "2025-05-20"^^xsd:date ;
-    :endDate "2025-05-22"^^xsd:date ;
-    :location :Nice ;
-    :relatedPackage :CoastalEscape ;
-    :organizedBy :BlueWheelsTours .
+cm:Bern a cm:City ;
+    foaf:name "Bern"^^xsd:string ;
+    cm:locatedIn cm:Switzerland .
+cm:Bern owl:sameAs dbr:Bern .
+#countries
+cm:France a cm:Country ;
+    foaf:name "France"^^xsd:string ;
+    cm:hasCapital cm:Paris ;
+    cm:hasOfficialLanguage "French"^^xsd:string ;
+    cm:usesCurrency "Euro"^^xsd:string ;
+    cm:hasTouristAttraction "Eiffel Tower"^^xsd:string, "Louvre Museum"^^xsd:string, "Mont Saint-Michel"^^xsd:string .  
+cm:France owl:sameAs dbr:France .
+cm:Switzerland a cm:Country ;
+    foaf:name "Switzerland"^^xsd:string ;
+    cm:hasCapital cm:Bern ;
+    cm:hasOfficialLanguage "German"^^xsd:string, "French"^^xsd:string, "Italian"^^xsd:string, "Romansh"^^xsd:string ;   
+    cm:usesCurrency "Swiss Franc"^^xsd:string ;
+    cm:hasTouristAttraction "Matterhorn"^^xsd:string, "Lake Geneva"^^xsd:string, "Jungfrau Region"^^xsd:string .    
+cm:Switzerland owl:sameAs dbr:Switzerland .
