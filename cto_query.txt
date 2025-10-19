@@ -1,1 +1,168 @@
+# Q1: List all tour packages with their name, duration, and price
+PREFIX cm:   <http://example.org/cto#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT ?package ?name ?days ?price
+WHERE {
+  ?package a cm:TourPackage ;
+           foaf:name ?name ;
+           cm:durationDays ?days ;
+           cm:pricePerPerson ?price .
+}
+ORDER BY ?name
+
+# Q2: List all tour packages with start and end cities
+PREFIX cm:   <http://example.org/cto#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT ?package ?name ?start ?end
+WHERE {
+  ?package a cm:TourPackage ;
+           foaf:name ?name ;
+           cm:startsAt ?start ;
+           cm:endsAt ?end .
+}
+ORDER BY ?name
+
+# Q3: List all cycling paths with difficulty and allowed bikes
+PREFIX cm:   <http://example.org/cto#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT ?path ?name ?difficulty (GROUP_CONCAT(STR(?bike); SEPARATOR=", ") AS ?allowed)
+WHERE {
+  ?path a cm:CyclingPath ;
+        foaf:name ?name ;
+        cm:difficultyLevel ?difficulty ;
+        cm:allowedBikes ?bike .
+}
+GROUP BY ?path ?name ?difficulty
+ORDER BY ?name
+
+# Q4: Find all destinations included in each tour package (start or end)
+PREFIX cm:   <http://example.org/cto#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT DISTINCT ?pkg ?pkgName ?dest ?destName
+WHERE {
+  ?pkg a cm:TourPackage ; foaf:name ?pkgName .
+  { ?pkg cm:startsAt ?dest . } UNION { ?pkg cm:endsAt ?dest . }
+  OPTIONAL { ?dest foaf:name ?destName }
+}
+ORDER BY ?pkgName ?destName
+
+# Q5: Count the number of tour packages by duration (days)
+PREFIX cm: <http://example.org/cto#>
+SELECT ?days (COUNT(?pkg) AS ?packages)
+WHERE {
+  ?pkg a cm:TourPackage ; cm:durationDays ?days .
+}
+GROUP BY ?days
+ORDER BY ?days
+
+# Q6: Calculate average package price by theme
+PREFIX cm:  <http://example.org/cto#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?themeLabel (AVG(xsd:decimal(?price)) AS ?avgPrice) (COUNT(*) AS ?n)
+WHERE {
+  ?pkg a cm:TourPackage ; cm:pricePerPerson ?price .
+  OPTIONAL { ?pkg cm:theme ?theme }
+  BIND(COALESCE(?theme, "—no theme—") AS ?themeLabel)
+}
+GROUP BY ?themeLabel
+ORDER BY ?themeLabel
+
+# Q7: Clients ranked by number of bookings
+PREFIX cm:   <http://example.org/cto#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?client ?name (COUNT(DISTINCT ?b) AS ?bookings)
+WHERE {
+  ?b a cm:Booking ; cm:bookedBy ?client .
+  OPTIONAL { ?client foaf:name ?n } 
+  OPTIONAL { ?client rdfs:label ?l }
+  BIND(COALESCE(?n, ?l) AS ?name)
+}
+GROUP BY ?client ?name
+ORDER BY DESC(?bookings) ?name
+
+# Q8: List all bookings with booking date and client
+PREFIX cm: <http://example.org/cto#>
+SELECT ?b ?date ?who
+WHERE {
+  ?b a cm:Booking ;
+     cm:bookingDate ?date ;
+     cm:bookedBy ?who .
+}
+ORDER BY ?b
+
+# Q9: List all classes defined in the dataset
+SELECT DISTINCT ?type
+WHERE { ?s a ?type . }
+ORDER BY ?type
+
+# Q10: List rental bikes, their models, and availability
+PREFIX cm:   <http://example.org/cto#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?bike ?modelName ?available
+WHERE {
+  ?bike a cm:RentalBike ; cm:model ?model .
+  OPTIONAL { ?model foaf:name ?mn } 
+  OPTIONAL { ?model rdfs:label ?ml }
+  OPTIONAL { ?bike cm:isAvailable ?available }
+  BIND(COALESCE(?mn, ?ml) AS ?modelName)
+}
+ORDER BY ?modelName ?bike
+
+# Q11: Count how many triples exist in total
+SELECT (COUNT(*) AS ?totalTriples)
+WHERE { ?s ?p ?o }
+
+# Q12: List all cities
+PREFIX cm: <http://example.org/cto#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT ?city ?name
+WHERE {
+  ?city a cm:City ;
+        foaf:name ?name .
+}
+ORDER BY ?name
+
+# Q13: Count total number of rental bikes
+PREFIX cm: <http://example.org/cto#>
+SELECT (COUNT(?bike) AS ?totalBikes)
+WHERE { ?bike a cm:RentalBike . }
+
+# Q14: Show the top 5 most-booked tour packages
+PREFIX cm:   <http://example.org/cto#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?pkg ?name (COUNT(?b) AS ?n)
+WHERE {
+  ?b a cm:Booking ;
+     cm:forTourPackage ?pkg .
+  OPTIONAL { ?pkg foaf:name|rdfs:label ?name }
+}
+GROUP BY ?pkg ?name
+ORDER BY DESC(?n) ?name
+LIMIT 5
+
+# Q15: Find all packages shorter than 5 days
+PREFIX cm: <http://example.org/cto#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?pkg ?days
+WHERE {
+  ?pkg a cm:TourPackage ;
+       cm:durationDays ?days .
+  FILTER(xsd:int(?days) < 5)
+}
+ORDER BY ?days
+
+# Q15+1: List all destinations (start or end cities) for each tour package
+PREFIX cm:   <http://example.org/cto#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT DISTINCT ?package ?packageName ?city ?cityName
+WHERE {
+  ?package a cm:TourPackage ;
+           foaf:name ?packageName ;
+           (cm:startsAt|cm:endsAt) ?city .
+  OPTIONAL { ?city foaf:name ?cityName }
+}
+ORDER BY ?packageName ?cityName
 
